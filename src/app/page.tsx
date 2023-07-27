@@ -1,4 +1,4 @@
-import Image from "next/image";
+import DataForm from './components/DataForm'
 
 export default function Home() {
   return (
@@ -9,7 +9,9 @@ export default function Home() {
           <div className="w-full h-2/3"></div>
           <div className="w-full h-1/3 border-t border-white"></div>
         </div>
-        <div className="w-1/4 h-full border-l border-white"></div>
+        <div className="w-1/4 h-full border-l border-white">
+          <DataForm />
+        </div>
       </div>
     </main>
   );
