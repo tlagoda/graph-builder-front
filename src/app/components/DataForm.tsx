@@ -1,16 +1,21 @@
 "use client";
 
-import { useState } from "react";
-
-export default function DataForm() {
-  const [data, setData] = useState([{ x: 0, y: 0 }]);
-
+export default function DataForm({
+  points,
+  setPoints,
+}: {
+  points: Record<string, number>[];
+  setPoints: any;
+}) {
   const addRow = () => {
-    setData((prevData) => [...prevData, { x: 0, y: 0 }]);
+    setPoints((prevData: Record<string, number>[]) => [
+      ...prevData,
+      { x: 0, y: 0 },
+    ]);
   };
 
-  const handleInputChange = (index, axis, value) => {
-    setData((prevData) => {
+  const handleInputChange = (index: number, axis: any, value: string) => {
+    setPoints((prevData: Record<string, number>[]) => {
       const updatedData = [...prevData];
       updatedData[index][axis] = Number(value);
       return updatedData;
@@ -27,7 +32,7 @@ export default function DataForm() {
         <label htmlFor="">y-axis:</label>
         <input type="text" className="text-black" />
       </div>
-      {data.map((point, index) => {
+      {points.map((point, index) => {
         return (
           <div key={index} className="w-full flex justify-center py-1">
             <div className="flex justify-end pr-2">
