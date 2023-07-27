@@ -18,15 +18,16 @@ const LineChart: React.FC<LineChartProps> = ({
   height = 500,
 }) => {
   const ref = useRef<SVGSVGElement | null>(null);
+  const margin = { top: -30, right: 30, bottom: 40, left: -10 };
+
 
   useEffect(() => {
     const svg = d3
       .select(ref.current)
       .attr("width", width)
-      .attr("height", height)
-      .style("border", "1px solid black");
+      .attr("height", height);
 
-    // remove old lines
+    // Supprimer l'ancien tracé
     svg.selectAll("path").remove();
     svg.selectAll("g").remove();
 
@@ -53,12 +54,33 @@ const LineChart: React.FC<LineChartProps> = ({
       .attr("stroke-width", 1.5)
       .attr("d", line);
 
+    // Ajout des axes
     svg
       .append("g")
       .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(xScale));
+      .call(d3.axisBottom(xScale).tickSizeOuter(0));
 
-    svg.append("g").call(d3.axisLeft(yScale));
+    svg
+      .append("text")
+      .attr(
+        "transform",
+        "translate(" + width / 2 + " ," + (height + margin.top + 20) + ")"
+      )
+      .style("text-anchor", "middle")
+      .text("Time (weeks)")
+      .attr("fill", "white");
+
+    svg.append("g").call(d3.axisLeft(yScale).tickSizeOuter(0));
+
+    svg
+      .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 0 - margin.left)
+      .attr("x", 0 - height / 2)
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .text("MRR ($)")
+      .attr("fill", "white");
   }, [data, width, height]);
 
   return <svg ref={ref}></svg>;
